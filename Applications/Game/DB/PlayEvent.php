@@ -5,7 +5,7 @@ class PlayEvent {
     var $DB_USER = 'root';
     var $DB_PSW = 'e5cda60c7e';
     var $DB_NAME = 'game';
-    var $DB_TABLE = 'flydog';
+    var $DB_TABLE = 'egypt';
 
     var $user_id;
     var $openid;

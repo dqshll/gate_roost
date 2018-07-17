@@ -12,13 +12,13 @@
 require_once __DIR__ . '/Buzz.php';
 //require_once dirname(dirname(__FILE__)) . '/Utils.php';
 
-class BuzzFlyDog implements Buzz{
+class BuzzGame implements Buzz{
 //    var $mState = 'wait';
 //    var $mGroupId;
 //    var $mScoreArray;
 //    var $mBox;
     function __construct() {
-        echo "creating BuzzFlyDog Buzz \n";
+        echo "creating Game Buzz \n";
 //        $this->changeState('wait');
 //        $this->mScoreArray = array();
 //        $this->mScoreArray[0] = array(0,0,0,0,0);

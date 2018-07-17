@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/DB/PlayEvent.php';
-require_once __DIR__ . '/Buzz/BuzzFlyDog.php';
+require_once __DIR__ . '/Buzz/BuzzGame.php';
 
 //declare(ticks=1);
 
@@ -137,7 +137,7 @@ class Events
             $buzz_name = substr($msg, $n + 1, strlen($msg) - $n - 1);
             echo ("buzz = $buzz_name\n");
             if ($buzz_name === "fd") {
-                return new BuzzFlyDog();
+                return new BuzzGame();
             }
 //            else if ($buzz === "rn") {
 //                $this->mBuzz = new BuzzRunner();

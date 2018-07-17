@@ -124,4 +124,68 @@ GRANT ALL PRIVILEGES ON *.* TO 'tom'@'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
-/* 这是注释 */
+CREATE TABLE flydog
+(
+  id               INT AUTO_INCREMENT
+    PRIMARY KEY,
+  user_id          VARCHAR(16)                             NULL,
+  openid           VARCHAR(128)                            NOT NULL,
+  screen_id        VARCHAR(16) DEFAULT '0'                 NULL,
+  round_id         VARCHAR(16) DEFAULT '0'                 NULL,
+  nickname         VARCHAR(128)                            NULL,
+  thumb            VARCHAR(512)                            NULL,
+  country          VARCHAR(128)                            NULL,
+  city             VARCHAR(128)                            NULL,
+  sex              VARCHAR(2) DEFAULT ''                   NOT NULL,
+  ts_barcode       TIMESTAMP DEFAULT CURRENT_TIMESTAMP     NOT NULL,
+  ts_wait          TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_start         TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_end           TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_retry         TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  duration         FLOAT DEFAULT '0'                       NOT NULL,
+  score            INT(8) DEFAULT '0'                      NOT NULL,
+  quit             INT(1) DEFAULT '0'                      NOT NULL,
+  play_detail_json VARCHAR(512)                            NULL,
+  register         INT(1) DEFAULT '0'                      NOT NULL,
+  award_draw       INT(4) DEFAULT '0'                      NOT NULL,
+  award_level      INT(4) DEFAULT '0'                      NOT NULL,
+  award_receive    VARCHAR(128)                            NULL,
+  host_ip          VARCHAR(30)                             NULL,
+  click_num        INT                                     NULL,
+  right_click      INT                                     NULL,
+  pcid             INT                                     NULL
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE egypt
+(
+  id               INT AUTO_INCREMENT
+    PRIMARY KEY,
+  user_id          VARCHAR(16)                             NULL,
+  openid           VARCHAR(128)                            NOT NULL,
+  screen_id        VARCHAR(16) DEFAULT '0'                 NULL,
+  round_id         VARCHAR(16) DEFAULT '0'                 NULL,
+  nickname         VARCHAR(128)                            NULL,
+  thumb            VARCHAR(512)                            NULL,
+  country          VARCHAR(128)                            NULL,
+  city             VARCHAR(128)                            NULL,
+  sex              VARCHAR(2) DEFAULT ''                   NOT NULL,
+  ts_barcode       TIMESTAMP DEFAULT CURRENT_TIMESTAMP     NOT NULL,
+  ts_wait          TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_start         TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_end           TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  ts_retry         TIMESTAMP DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  duration         FLOAT DEFAULT '0'                       NOT NULL,
+  score            INT(8) DEFAULT '0'                      NOT NULL,
+  quit             INT(1) DEFAULT '0'                      NOT NULL,
+  play_detail_json VARCHAR(512)                            NULL,
+  register         INT(1) DEFAULT '0'                      NOT NULL,
+  award_draw       INT(4) DEFAULT '0'                      NOT NULL,
+  award_level      INT(4) DEFAULT '0'                      NOT NULL,
+  award_receive    VARCHAR(128)                            NULL,
+  host_ip          VARCHAR(30)                             NULL,
+  click_num        INT                                     NULL,
+  right_click      INT                                     NULL,
+  pcid             INT                                     NULL,
+  lat              FLOAT DEFAULT '0'                       NULL,
+  lng              FLOAT DEFAULT '0'                       NULL
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
