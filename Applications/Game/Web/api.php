@@ -60,6 +60,8 @@ function onAddProgram () {
         return;
     }
 
+    echo '(1.5)';
+
     $url = $_GET['url'];
     if (empty($url)) {
         $RESULT['error'] = 104;
