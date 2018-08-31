@@ -51,16 +51,12 @@ function onAddProgram () {
         return;
     }
 
-    echo '1';
-
     $duration = $_GET['dur'];
     if (empty($duration)) {
         $RESULT['error'] = 103;
         $RESULT['msg'] = '缺少参数 dur';
         return;
     }
-
-    echo '(1.5)';
 
     $url = $_GET['url'];
     if (empty($url)) {
