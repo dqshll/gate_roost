@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `play_find` (
   `award_receive` varchar(128) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-ALTER TABLE play_find ADD `xxx` varchar(512) DEFAULT NULL;
+ALTER TABLE sheets ADD `desc` varchar(128) DEFAULT NULL;
 
 // new remote visitor
 CREATE USER 'tom'@'localhost' IDENTIFIED BY 'Ed1s0nX';
@@ -188,4 +188,29 @@ CREATE TABLE egypt
   pcid             INT                                     NULL,
   lat              FLOAT DEFAULT '0'                       NULL,
   lng              FLOAT DEFAULT '0'                       NULL
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE sheets
+(
+  sid               INT AUTO_INCREMENT PRIMARY KEY,
+  name         VARCHAR(128)                            NULL,
+
+  create_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP     NOT NULL,
+  start_time       TIMESTAMP NOT NULL,
+  end_time         TIMESTAMP,
+  cinema_ids       VARCHAR(128)  DEFAULT NULL ,
+  pc_ids           VARCHAR(128)  DEFAULT NULL ,
+  programs         VARCHAR(256)  DEFAULT NULL
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE programs
+(
+  pid               INT AUTO_INCREMENT PRIMARY KEY,
+  name         VARCHAR(128)                            NULL,
+
+  update_time timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+  type             INT(4) DEFAULT NULL,
+  duration         INT(4) DEFAULT '0',
+  url            VARCHAR(256)  DEFAULT NULL
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;
