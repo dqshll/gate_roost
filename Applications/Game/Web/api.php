@@ -40,8 +40,7 @@ echo json_encode($RESULT);
 /** Query */
 
 function onAddProgram () {
-    echo 'onAddProgram';
-    
+
     global $RESULT, $DB_TAB_SHEET;
 
     $type = $_GET['type'];
@@ -51,6 +50,8 @@ function onAddProgram () {
         $RESULT['msg'] = '缺少参数 type';
         return;
     }
+
+    echo '1';
 
     $duration = $_GET['dur'];
     if (empty($duration)) {
@@ -66,6 +67,8 @@ function onAddProgram () {
         return;
     }
 
+    echo '2';
+
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
         $RESULT['error'] = 105;
@@ -73,11 +76,12 @@ function onAddProgram () {
         return;
     }
 
+    echo '3';
+
     $name = $_GET['name'];
     $desc = $_GET['desc'];
 
     connectDb();
-
 
     $RESULT['error'] = 0;
     $RESULT['操作成功'] = 0;
@@ -87,8 +91,8 @@ function onAddProgram () {
     $action_result = mysql_query($sql);
 
     // var_dump($action_result);
-
-    if (!$action_result) { // 空
+    echo '4';
+    if ($action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
     }
