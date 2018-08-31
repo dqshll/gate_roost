@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        onAddProgram();
+        $RESULT = onAddProgram();
     } else if ($action == "add_sht") {
         onAddSheet();
     } else if ($action == "update") {
