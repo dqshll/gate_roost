@@ -40,7 +40,9 @@ echo json_encode($RESULT);
 /** Query */
 
 function onAddProgram () {
-    global $RESULT;
+    echo 'onAddProgram';
+    
+    global $RESULT, $DB_TAB_SHEET;
 
     $type = $_GET['type'];
 
@@ -79,8 +81,6 @@ function onAddProgram () {
 
     $RESULT['error'] = 0;
     $RESULT['操作成功'] = 0;
-
-    global $DB_TAB_SHEET;
 
     $sql = "INSERT INTO $DB_TAB_SHEET (name, type, duration, url, desc, cinema_id) VALUES ('$name','$type','$duration','$url','$desc','$cinema_id')";
 
