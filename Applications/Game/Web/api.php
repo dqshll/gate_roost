@@ -75,11 +75,11 @@ function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, desc, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
+    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, description, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
 
-    echo $sql;
+//    echo $sql;
 
-    var_dump($RESULT);
+//    var_dump($RESULT);
 
     $action_result = mysql_query($sql);
 
