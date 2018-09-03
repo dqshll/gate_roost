@@ -45,8 +45,58 @@ function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
         return;
     }
 
+    $url = $_GET['url'];
+    if (empty($url)) {
+        $RESULT['error'] = 104;
+        $RESULT['msg'] = '缺少参数 url';
+        return;
+    }
+
+    $cinema_id = $_GET['cnmid'];
+    if (empty($cinema_id)) {
+        $RESULT['error'] = 105;
+        $RESULT['msg'] = '缺少参数 cinema_id';
+        return;
+    }
+
+    $name = $_GET['name'];
+    $desc = $_GET['desc'];
     $duration = $_GET['dur'];
 
+    connectDb();
+
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, description, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    }
+
+    closeDb();
+}
+
+function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
+
+    $pid = $_GET['pid'];
+    if(!isset($pid)) {
+        $RESULT['error'] = 106;
+        $RESULT['msg'] = '缺少参数 pid';
+        return;
+    }
+
+    $type = $_GET['type'];
+    if(empty($type)) {
+        $RESULT['error'] = 102;
+        $RESULT['msg'] = '缺少参数 type';
+        return;
+    }
+
+    $duration = $_GET['dur'];
     if (empty($duration)) {
         $RESULT['error'] = 103;
         $RESULT['msg'] = '缺少参数 dur';
@@ -75,24 +125,17 @@ function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, description, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
-
-//    echo $sql;
-
-//    var_dump($RESULT);
+//    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, description, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
+    $sql = "UPDATE $DB_TAB_PROGRAM SET name='$name', type=$type, duration='$duration', description='$desc', cinema_id='$cinema_id' WHERE id='$pid'";
 
     $action_result = mysql_query($sql);
 
-    // var_dump($action_result);
-    echo '4';
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
     }
 
     closeDb();
-
-    return;
 }
 
 function onAddSheet () {
