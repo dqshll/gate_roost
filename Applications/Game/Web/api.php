@@ -26,6 +26,14 @@ if (isset($_GET['action'])) {
         onProgramDel($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "q_prog") {
         onProgramQuery($RESULT, $DB_TAB_PROGRAM);
+    } else if ($action == "add_sht") {
+        onSheetAdd($RESULT, $DB_TAB_SHEET);
+    } else if ($action == "up_sht") {
+        onSheetUpdate($RESULT, $DB_TAB_SHEET);
+    } else if ($action == "del_sht") {
+        onSheetDel($RESULT, $DB_TAB_SHEET);
+    } else if ($action == "q_sht") {
+        onSheetQuery($RESULT, $DB_TAB_SHEET);
     } else if ($action == 'stat' && !empty($_GET['user_id'])) {
         logStat();
     }
@@ -55,7 +63,7 @@ function onProgramAdd (&$RESULT, $DB_TAB_PROGRAM) {
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
         $RESULT['error'] = 105;
-        $RESULT['msg'] = '缺少参数 cinema_id';
+        $RESULT['msg'] = '缺少参数 cnmid';
         return;
     }
 
@@ -113,7 +121,7 @@ function onProgramUpdate (&$RESULT, $DB_TAB_PROGRAM) {
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
         $RESULT['error'] = 105;
-        $RESULT['msg'] = '缺少参数 cinema_id';
+        $RESULT['msg'] = '缺少参数 cnmid';
         return;
     }
 
@@ -176,8 +184,6 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
 
     connectDb();
 
-
-
     $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id'";
 //    echo $sql;
 
@@ -204,6 +210,66 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
 
             array_push($RESULT['progs'], $program);
         }
+    }
+
+    closeDb();
+}
+
+function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
+
+    $start_time = $_GET['st'];
+
+    if(isset($start_time)) {
+        $RESULT['error'] = 102;
+        $RESULT['msg'] = '缺少参数 st';
+        return;
+    }
+
+    $start_time = toDTS($start_time); // TBD
+
+    $url = $_GET['url'];
+    if (isset($url)) {
+        $RESULT['error'] = 104;
+        $RESULT['msg'] = '缺少参数 url';
+        return;
+    }
+
+    $pc_ids = $_GET['pcids'];
+//    if (empty($pc_ids)) {
+//        $RESULT['error'] = 105;
+//        $RESULT['msg'] = '缺少参数 pcids';
+//        return;
+//    }
+
+    $cinema_ids = $_GET['cnmids'];
+    if (isset($cinema_ids)) {
+        $RESULT['error'] = 105;
+        $RESULT['msg'] = '缺少参数 cnmids';
+        return;
+    }
+
+    $programs = $_GET['progs'];
+    if (isset($cinema_ids)) {
+        $RESULT['error'] = 107;
+        $RESULT['msg'] = '缺少参数 progs';
+        return;
+    }
+
+    $name = $_GET['name'];
+    $desc = $_GET['desc'];
+
+    connectDb();
+
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "INSERT INTO $DB_TAB_SHEET (name, start_time, pc_ids, programs, description, cinema_ids) VALUES ('$name',$start_time,$pc_ids,'$programs','$desc','$cinema_ids')";
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
     }
 
     closeDb();
@@ -400,96 +466,6 @@ function onActionDetail ($actionId) {
     mysql_close();
 
     return $action;
-}
-
-function onSheetAdd () {
-    global $RESULT;
-
-    $name = $_GET['name'];
-    if(empty($name)) {
-        $RESULT['error'] = 102;
-        return;
-    }
-
-    $stages_json = $_GET['stage'];
-    if ( empty($stages_json) || strlen($stages_json) <= 0) {
-        $RESULT['error'] = 103;
-        return;
-    }
-
-    $stages = json_decode($stages_json,true);
-    if (count($stages) <= 0) {
-        $RESULT['error'] = 104;
-        return;
-    }
-
-    $start_time = $_GET['st'];
-    $end_time = $_GET['ed'];
-    $enable = $_GET['enable'];
-    $to = $_GET['to'];
-    $adesc = $_GET['desc'];
-
-    global $DB_HOST, $DB_NAME;
-
-    $db_connection = mysql_connect($DB_HOST,"root","e5cda60c7e");
-
-    mysql_query("set names 'utf8'"); //数据库输出编码
-
-    mysql_select_db($DB_NAME); //打开数据库
-
-    $pkg_ids = '';
-    for ($i=0; $i< count($stages); $i++) {
-        $stage = $stages[$i];
-
-        $pkg_name = $stage['pkg_name'];
-        $dur = $stage['dur'];
-        $fdur = $stage['fdur'];
-        $pos = $stage['pos'];
-        $w = $stage['w'];
-        $h = $stage['h'];
-        $desc = $stage['desc'];
-        $img_url = $stage['url'];
-        $xls = $stage['xls'];
-
-        if (empty($w) || empty($h) || empty($img_url) || empty($pos) || empty($dur) || empty($pkg_name)) {
-            $RESULT['error'] = 105;
-            return;
-        }
-
-        $sql = "INSERT INTO find_pkg (pkg_name, point_info, description, img_url, duration, follow_duration, width, height, xls) VALUES ('$pkg_name','$pos,$desc','$desc','$img_url','$dur','$fdur','$w','$h','$xls')";
-        // echo $sql;
-        $insert_result = mysql_query($sql);
-        if (!$insert_result) {
-            $RESULT['error'] = 106;
-            return;
-        }
-
-        $lastId = mysql_insert_id($db_connection);
-
-        if ($i == 0) {
-            $pkg_ids = $lastId;
-        } else {
-            $pkg_ids = $pkg_ids . ',' . $lastId;
-        }
-
-        triggerQRCodeVideoAsync($lastId, $dur);
-    }
-
-    $RESULT['error'] = 0;
-
-    $sql = "INSERT INTO find_action (name, packages, start_time, end_time, enable, redirect, description) VALUES ('$name','$pkg_ids','$start_time','$end_time','$enable','$to','$adesc')";
-
-    $action_result = mysql_query($sql);
-
-    // var_dump($action_result);
-
-    if (!$action_result) { // 空
-        $RESULT['error'] = 112;
-    }
-
-    mysql_close();
-
-    return;
 }
 
 function onActionUpdate () {
