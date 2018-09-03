@@ -45,13 +45,13 @@ function onAddProgram () {
 
     $type = $_GET['type'];
 
-    echo '1';
-
     if(empty($type)) {
         $RESULT['error'] = 102;
         $RESULT['msg'] = '缺少参数 type';
         return;
     }
+
+    echo "type = $type";
 
     $duration = $_GET['dur'];
     if (empty($duration)) {
@@ -60,6 +60,8 @@ function onAddProgram () {
         return;
     }
 
+    echo "dur = $duration";
+
     $url = $_GET['url'];
     if (empty($url)) {
         $RESULT['error'] = 104;
@@ -67,7 +69,7 @@ function onAddProgram () {
         return;
     }
 
-    echo '2';
+    echo "url = $url";
 
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
@@ -76,7 +78,7 @@ function onAddProgram () {
         return;
     }
 
-    echo '3';
+    echo "cinema_id = $cinema_id";
 
     $name = $_GET['name'];
     $desc = $_GET['desc'];
