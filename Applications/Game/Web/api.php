@@ -19,11 +19,11 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        onAddProgram($RESULT, $DB_TAB_PROGRAM);
+        onProgramAdd($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "up_prog") {
-        onUpdateProgram($RESULT, $DB_TAB_PROGRAM);
-    } else if ($action == "update") {
-        onActionUpdate();
+        onProgramUpdate($RESULT, $DB_TAB_PROGRAM);
+    } else if ($action == "del_prog") {
+        onDelUpdate();
     } else if ($action == "del") {
         onActionDel();
     } else if ($action == 'stat' && !empty($_GET['user_id'])) {
@@ -35,7 +35,7 @@ echo json_encode($RESULT);
 
 /** Query */
 
-function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
+function onProgramAdd (&$RESULT, $DB_TAB_PROGRAM) {
 
     $type = $_GET['type'];
 
@@ -80,7 +80,7 @@ function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
     closeDb();
 }
 
-function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
+function onProgramUpdate (&$RESULT, $DB_TAB_PROGRAM) {
 
     $pid = $_GET['pid'];
     if(!isset($pid)) {
@@ -127,7 +127,7 @@ function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
 
     $sql = "UPDATE $DB_TAB_PROGRAM SET name='$name', type=$type, duration='$duration', description='$desc', cinema_id='$cinema_id' WHERE pid='$pid'";
 
-    echo $sql;
+//    echo $sql;
 
     $action_result = mysql_query($sql);
 
@@ -139,94 +139,30 @@ function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
     closeDb();
 }
 
-function onAddSheet () {
-            global $RESULT;
-
-            $start_time = $_GET['st'];
-
-            if(empty($start_time)) {
-                $RESULT['error'] = 102;
-                return;
-            }
-
-            $stages_json = $_GET['stage'];
-            if ( empty($stages_json) || strlen($stages_json) <= 0) {
-                $RESULT['error'] = 103;
-                return;
-            }
-
-            $stages = json_decode($stages_json,true);
-            if (count($stages) <= 0) {
-                $RESULT['error'] = 104;
-                return;
-            }
-
-            $end_time = $_GET['ed'];
-            $enable = $_GET['enable'];
-            $to = $_GET['to'];
-            $adesc = $_GET['desc'];
-
-            global $DB_HOST, $DB_NAME;
-
-            $db_connection = mysql_connect($DB_HOST,"root","e5cda60c7e");
-
-            mysql_query("set names 'utf8'"); //数据库输出编码
-
-            mysql_select_db($DB_NAME); //打开数据库
-
-            $pkg_ids = '';
-            for ($i=0; $i< count($stages); $i++) {
-                $stage = $stages[$i];
-
-                $pkg_name = $stage['pkg_name'];
-                $dur = $stage['dur'];
-                $fdur = $stage['fdur'];
-        $pos = $stage['pos'];
-        $w = $stage['w'];
-        $h = $stage['h'];
-        $desc = $stage['desc'];
-        $img_url = $stage['url'];
-        $xls = $stage['xls'];
-
-        if (empty($w) || empty($h) || empty($img_url) || empty($pos) || empty($dur) || empty($pkg_name)) {
-            $RESULT['error'] = 105;
-            return;
-        }
-
-        $sql = "INSERT INTO find_pkg (pkg_name, point_info, description, img_url, duration, follow_duration, width, height, xls) VALUES ('$pkg_name','$pos,$desc','$desc','$img_url','$dur','$fdur','$w','$h','$xls')";
-        // echo $sql;
-        $insert_result = mysql_query($sql);
-        if (!$insert_result) {
-            $RESULT['error'] = 106;
-            return;
-        }
-
-        $lastId = mysql_insert_id($db_connection);
-
-        if ($i == 0) {
-            $pkg_ids = $lastId;
-        } else {
-            $pkg_ids = $pkg_ids . ',' . $lastId;
-        }
-
-        triggerQRCodeVideoAsync($lastId, $dur);
+function onProgramDel (&$RESULT, $DB_TAB_PROGRAM) {
+    $pid = $_GET['pid'];
+    if(!isset($pid)) {
+        $RESULT['error'] = 106;
+        $RESULT['msg'] = '缺少参数 pid';
+        return;
     }
 
-    $RESULT['error'] = 0;
+    connectDb();
 
-    $sql = "INSERT INTO find_action (name, packages, start_time, end_time, enable, redirect, description) VALUES ('$name','$pkg_ids','$start_time','$end_time','$enable','$to','$adesc')";
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "delete from $DB_TAB_PROGRAM where pid=$pid";
+//    echo $sql;
 
     $action_result = mysql_query($sql);
 
-    // var_dump($action_result);
-
     if (!$action_result) { // 空
-        $RESULT['error'] = 112;
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
     }
 
-    mysql_close();
-
-    return;
+    closeDb();
 }
 
 function onQueryHandler ($sid) {
