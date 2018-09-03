@@ -20,8 +20,8 @@ if (isset($_GET['action'])) {
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
         onAddProgram($RESULT, $DB_TAB_PROGRAM);
-    } else if ($action == "add_sht") {
-        onAddSheet();
+    } else if ($action == "up_prog") {
+        onUpdateProgram($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "update") {
         onActionUpdate();
     } else if ($action == "del") {
