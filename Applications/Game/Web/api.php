@@ -227,13 +227,6 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
 
     $start_time = toDTS($start_time); // TBD
 
-    $url = $_GET['url'];
-    if (!isset($url)) {
-        $RESULT['error'] = 104;
-        $RESULT['msg'] = '缺少参数 url';
-        return;
-    }
-
     $pc_ids = $_GET['pcids'];
 //    if (empty($pc_ids)) {
 //        $RESULT['error'] = 105;
