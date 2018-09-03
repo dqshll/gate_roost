@@ -23,13 +23,13 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        $RESULT = onAddProgram();
+        onAddProgram();
     } else if ($action == "add_sht") {
         onAddSheet();
     } else if ($action == "update") {
         onActionUpdate();
     } else if ($action == "del") {
-        $RESULT = onActionDel();
+        onActionDel();
     } else if ($action == 'stat' && !empty($_GET['user_id'])) {
         logStat();
     }
