@@ -45,6 +45,8 @@ function onAddProgram () {
 
     $type = $_GET['type'];
 
+    echo '1';
+
     if(empty($type)) {
         $RESULT['error'] = 102;
         $RESULT['msg'] = '缺少参数 type';
