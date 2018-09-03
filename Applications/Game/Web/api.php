@@ -24,8 +24,8 @@ if (isset($_GET['action'])) {
         onProgramUpdate($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "del_prog") {
         onProgramDel($RESULT, $DB_TAB_PROGRAM);
-    } else if ($action == "del") {
-        onActionDel();
+    } else if ($action == "q_prog") {
+        onProgramQuery($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == 'stat' && !empty($_GET['user_id'])) {
         logStat();
     }
@@ -164,6 +164,33 @@ function onProgramDel (&$RESULT, $DB_TAB_PROGRAM) {
 
     closeDb();
 }
+
+function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
+
+    $cinema_id = $_GET['cnmid'];
+    if (empty($cinema_id)) {
+        $RESULT['error'] = 105;
+        $RESULT['msg'] = '缺少参数 cinema_id';
+        return;
+    }
+
+    connectDb();
+
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id')";
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    }
+
+    closeDb();
+}
+
 
 function onQueryHandler ($sid) {
     $actions = array();
