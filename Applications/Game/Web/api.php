@@ -2,7 +2,7 @@
 $RESULT = array('error'=>101, 'msg'=>'参数错误');
 
 $DB_TAB_SHEET = 'sheets';
-$DB_TAB_PROGRAM = 'porgrams';
+$DB_TAB_PROGRAM = 'programs';
 $QR_FOLDER = '/alidata/www/ecmall/data/files/cha';
 $BUZZ_URL = 'https://miniapp.edisonx.cn/h5/taihe2';
 
@@ -75,7 +75,7 @@ function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, desc, cinema_id) VALUES ('$name','$type','$duration','$url','$desc','$cinema_id')";
+    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, desc, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
 
     echo $sql;
 
