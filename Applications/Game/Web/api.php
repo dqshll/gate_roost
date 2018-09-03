@@ -125,7 +125,7 @@ function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "UPDATE $DB_TAB_PROGRAM SET name='$name', type=$type, duration='$duration', description='$desc', cinema_id='$cinema_id' WHERE id='$pid'";
+    $sql = "UPDATE $DB_TAB_PROGRAM SET name='$name', type=$type, duration='$duration', description='$desc', cinema_id='$cinema_id' WHERE pid='$pid'";
 
     echo $sql;
 
