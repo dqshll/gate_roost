@@ -176,8 +176,7 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
 
     connectDb();
 
-    $RESULT['error'] = 0;
-    $RESULT['msg'] = '操作成功';
+
 
     $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id'";
 //    echo $sql;
@@ -187,6 +186,24 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
+    } else {
+        $RESULT['error'] = 0;
+        $RESULT['msg'] = '操作成功';
+
+        $RESULT['progs'] = array();
+
+        while ($item = mysql_fetch_array($action_result)) {
+            $program = array();
+
+            $program ['pid'] = $item['start_time'];
+            $program ['name'] = $item['name'];
+            $program ['type'] = $item['type'];
+            $program ['cnmid'] = $item['cinema_id'];
+            $program ['dur'] = $item['duration'];
+            $program ['url'] = $item['url'];
+
+            array_push($RESULT['progs'], $program);
+        }
     }
 
     closeDb();
