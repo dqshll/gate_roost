@@ -170,7 +170,7 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
         $RESULT['error'] = 105;
-        $RESULT['msg'] = '缺少参数 cinema_id';
+        $RESULT['msg'] = '缺少参数 cnmid';
         return;
     }
 
@@ -180,7 +180,8 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['msg'] = '操作成功';
 
     $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id')";
-
+    echo $sql;
+    
     $action_result = mysql_query($sql);
 
     if (!$action_result) { // 空
