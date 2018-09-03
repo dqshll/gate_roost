@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
     } else if ($action == "up_prog") {
         onProgramUpdate($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "del_prog") {
-        onDelUpdate();
+        onProgramDel($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "del") {
         onActionDel();
     } else if ($action == 'stat' && !empty($_GET['user_id'])) {
