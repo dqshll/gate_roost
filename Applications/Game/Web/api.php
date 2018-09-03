@@ -1,5 +1,5 @@
 <?php
-$RESULT = array('error'=>101, 'msg'=>'参数错误');
+$RESULT = array('error'=>1001, 'msg'=>'参数错误');
 
 $DB_HOST = 'api.edisonx.cn';
 $DB_NAME = 'roost';
@@ -51,18 +51,13 @@ function onAddProgram () {
         return;
     }
 
-    echo "type = $type";
-
     $duration = $_GET['dur'];
-    echo "dur = $duration";
 
     if (empty($duration)) {
         $RESULT['error'] = 103;
         $RESULT['msg'] = '缺少参数 dur';
         return;
     }
-
-
 
     $url = $_GET['url'];
     if (empty($url)) {
@@ -71,8 +66,6 @@ function onAddProgram () {
         return;
     }
 
-    echo "url = $url";
-
     $cinema_id = $_GET['cnmid'];
     if (empty($cinema_id)) {
         $RESULT['error'] = 105;
@@ -80,17 +73,19 @@ function onAddProgram () {
         return;
     }
 
-    echo "cinema_id = $cinema_id";
-
     $name = $_GET['name'];
     $desc = $_GET['desc'];
 
     connectDb();
 
     $RESULT['error'] = 0;
-    $RESULT['操作成功'] = 0;
+    $RESULT['msg'] = '操作成功';
 
     $sql = "INSERT INTO $DB_TAB_SHEET (name, type, duration, url, desc, cinema_id) VALUES ('$name','$type','$duration','$url','$desc','$cinema_id')";
+
+    echo $sql;
+
+    var_dump($RESULT);
 
     $action_result = mysql_query($sql);
 
