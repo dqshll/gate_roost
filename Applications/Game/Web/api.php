@@ -179,9 +179,9 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id')";
-    echo $sql;
-    
+    $sql = "SELECT * FROM $DB_TAB_PROGRAM WHERE cinema_id='$cinema_id'";
+//    echo $sql;
+
     $action_result = mysql_query($sql);
 
     if (!$action_result) { // 空
