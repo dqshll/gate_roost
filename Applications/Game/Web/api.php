@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        onAddProgram($RESULT, $DB_TAB_SHEET);
+        onAddProgram($RESULT, $DB_TAB_PROGRAM);
     } else if ($action == "add_sht") {
         onAddSheet();
     } else if ($action == "update") {
@@ -35,7 +35,7 @@ echo json_encode($RESULT);
 
 /** Query */
 
-function onAddProgram ($RESULT, $DB_TAB_SHEET) {
+function onAddProgram (&$RESULT, $DB_TAB_PROGRAM) {
 
     $type = $_GET['type'];
 
@@ -75,7 +75,7 @@ function onAddProgram ($RESULT, $DB_TAB_SHEET) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "INSERT INTO $DB_TAB_SHEET (name, type, duration, url, desc, cinema_id) VALUES ('$name','$type','$duration','$url','$desc','$cinema_id')";
+    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, desc, cinema_id) VALUES ('$name','$type','$duration','$url','$desc','$cinema_id')";
 
     echo $sql;
 
@@ -85,7 +85,7 @@ function onAddProgram ($RESULT, $DB_TAB_SHEET) {
 
     // var_dump($action_result);
     echo '4';
-    if ($action_result) { // 空
+    if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
     }
