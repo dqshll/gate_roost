@@ -1,10 +1,6 @@
 <?php
 $RESULT = array('error'=>101, 'msg'=>'参数错误');
 
-$DB_HOST = 'api.edisonx.cn';
-$DB_NAME = 'roost';
-$DB_USER = 'root';
-$DB_PSW = 'e5cda60c7e';
 $DB_TAB_SHEET = 'sheets';
 $DB_TAB_PROGRAM = 'porgrams';
 $QR_FOLDER = '/alidata/www/ecmall/data/files/cha';
@@ -23,7 +19,7 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        onAddProgram();
+        onAddProgram($RESULT, $DB_TAB_SHEET);
     } else if ($action == "add_sht") {
         onAddSheet();
     } else if ($action == "update") {
@@ -39,9 +35,7 @@ echo json_encode($RESULT);
 
 /** Query */
 
-function onAddProgram () {
-
-    global $RESULT, $DB_TAB_SHEET;
+function onAddProgram ($RESULT, $DB_TAB_SHEET) {
 
     $type = $_GET['type'];
 
@@ -1003,7 +997,10 @@ function generateQRPng($url, $filename) {
 
 function connectDb () {
 
-    global $DB_HOST, $DB_NAME, $DB_USER, $DB_PSW;
+    $DB_HOST = 'api.edisonx.cn';
+    $DB_NAME = 'roost';
+    $DB_USER = 'root';
+    $DB_PSW = 'e5cda60c7e';
 
     $db_connection = mysql_connect($DB_HOST, $DB_USER, $DB_PSW);
 
