@@ -125,8 +125,9 @@ function onUpdateProgram (&$RESULT, $DB_TAB_PROGRAM) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-//    $sql = "INSERT INTO $DB_TAB_PROGRAM (name, type, duration, url, description, cinema_id) VALUES ('$name',$type,$duration,'$url','$desc','$cinema_id')";
     $sql = "UPDATE $DB_TAB_PROGRAM SET name='$name', type=$type, duration='$duration', description='$desc', cinema_id='$cinema_id' WHERE id='$pid'";
+
+    echo $sql;
 
     $action_result = mysql_query($sql);
 
