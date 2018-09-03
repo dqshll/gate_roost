@@ -54,13 +54,15 @@ function onAddProgram () {
     echo "type = $type";
 
     $duration = $_GET['dur'];
+    echo "dur = $duration";
+
     if (empty($duration)) {
         $RESULT['error'] = 103;
         $RESULT['msg'] = '缺少参数 dur';
         return;
     }
 
-    echo "dur = $duration";
+
 
     $url = $_GET['url'];
     if (empty($url)) {
