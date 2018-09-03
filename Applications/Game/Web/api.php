@@ -219,7 +219,7 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
 
     $start_time = $_GET['st'];
 
-    if(isset($start_time)) {
+    if(!isset($start_time)) {
         $RESULT['error'] = 102;
         $RESULT['msg'] = '缺少参数 st';
         return;
@@ -228,7 +228,7 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
     $start_time = toDTS($start_time); // TBD
 
     $url = $_GET['url'];
-    if (isset($url)) {
+    if (!isset($url)) {
         $RESULT['error'] = 104;
         $RESULT['msg'] = '缺少参数 url';
         return;
@@ -242,14 +242,14 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
 //    }
 
     $cinema_ids = $_GET['cnmids'];
-    if (isset($cinema_ids)) {
+    if (!isset($cinema_ids)) {
         $RESULT['error'] = 105;
         $RESULT['msg'] = '缺少参数 cnmids';
         return;
     }
 
     $programs = $_GET['progs'];
-    if (isset($cinema_ids)) {
+    if (!isset($cinema_ids)) {
         $RESULT['error'] = 107;
         $RESULT['msg'] = '缺少参数 progs';
         return;
