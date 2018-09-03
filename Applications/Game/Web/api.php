@@ -1,5 +1,5 @@
 <?php
-$RESULT = array('error'=>1001, 'msg'=>'参数错误');
+$RESULT = array('error'=>101, 'msg'=>'参数错误');
 
 $DB_HOST = 'api.edisonx.cn';
 $DB_NAME = 'roost';
@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
         $RESULT['error'] = 0;
         $RESULT['actions'] = onActionDetail($_GET['aid']);
     } else if ($action == "add_prog") {
-        onAddProgram();
+        $onAddProgram();
     } else if ($action == "add_sht") {
         onAddSheet();
     } else if ($action == "update") {
@@ -39,9 +39,9 @@ echo json_encode($RESULT);
 
 /** Query */
 
-function onAddProgram () {
+$onAddProgram = function () use ($RESULT, $DB_TAB_SHEET) {
 
-    global $RESULT, $DB_TAB_SHEET;
+//    global $RESULT, $DB_TAB_SHEET;
 
     $type = $_GET['type'];
 
@@ -99,7 +99,7 @@ function onAddProgram () {
     closeDb();
 
     return;
-}
+};
 
 function onAddSheet () {
             global $RESULT;
