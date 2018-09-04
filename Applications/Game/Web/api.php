@@ -428,6 +428,64 @@ function onSheetQueryByCinema (&$RESULT, $DB_TAB_SHEET) {
     closeDb();
 }
 
+function onSheetQueryByPC (&$RESULT, $DB_TAB_SHEET) {
+
+    $pc_id = $_GET['pcid'];
+    if (empty($pc_id)) {
+        $RESULT['error'] = 109;
+        $RESULT['msg'] = '缺少参数 pcid';
+        return;
+    }
+
+    connectDb();
+
+    $sql = "SELECT * FROM $DB_TAB_SHEET WHERE pc_ids like '%$pc_id%'";
+//    echo $sql;
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    } else {
+        $RESULT['error'] = 0;
+        $RESULT['msg'] = '操作成功';
+
+        $RESULT['shts'] = array();
+
+        while ($item = mysql_fetch_array($action_result)) {
+            $pc_ids = $item['pc_ids'];
+            $list = explode(',', $pc_ids);
+//            var_dump($list);
+            $match = false;
+            foreach($list as $cid){
+                if ($cid == $pc_id) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            if (!$match) {
+                continue;
+            }
+
+            $sheet = array();
+
+            $sheet ['sid'] = $item['sid'];
+            $sheet ['name'] = $item['name'];
+            $sheet ['start_time'] = $item['start_time'];
+            $sheet ['cnmids'] = $item['cinema_ids'];
+            $sheet ['pcids'] = $item['pc_ids'];
+            $sheet ['progs'] = $item['programs'];
+            $sheet ['desc'] = $item['description'];
+
+            array_push($RESULT['shts'], $sheet);
+        }
+    }
+
+    closeDb();
+}
+
 function onQueryHandler ($sid) {
     $actions = array();
 
