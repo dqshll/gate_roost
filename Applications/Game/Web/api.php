@@ -354,6 +354,21 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
 
     closeDb();
 }
+function onSheetQuery (&$RESULT, $DB_TAB_SHEET) {
+    $pc_id = $_GET['pcid'];
+    if (empty($pc_id)) {
+        $cinema_id = $_GET['cnmid'];
+        if (empty($cinema_id)) {
+            $RESULT['error'] = 105;
+            $RESULT['msg'] = '缺少参数 cnmid 或 pcid';
+            return;
+        } else {
+            onSheetQueryByCinema($RESULT, $DB_TAB_SHEET);
+        }
+    } else {
+        onSheetQueryByPC($RESULT, $DB_TAB_SHEET);
+    }
+}
 
 function onSheetQueryByCinema (&$RESULT, $DB_TAB_SHEET) {
 
