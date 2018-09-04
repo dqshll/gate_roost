@@ -317,7 +317,7 @@ function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
 
-    $sql = "UPDATE $DB_TAB_SHEET SET name='$name', start_time=$start_time, pc_ids='$pc_ids', programs='$programs', description='$desc', cinema_ids='$cinema_ids' WHERE sid='$sid'";
+    $sql = "UPDATE $DB_TAB_SHEET SET name='$name', start_time='$start_time', pc_ids='$pc_ids', programs='$programs', description='$desc', cinema_ids='$cinema_ids' WHERE sid='$sid'";
 
     $action_result = mysql_query($sql);
 
