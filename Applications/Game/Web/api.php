@@ -268,6 +268,67 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
     closeDb();
 }
 
+function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
+
+    $sid = $_GET['sid'];
+
+    if(!isset($sid)) {
+        $RESULT['error'] = 108;
+        $RESULT['msg'] = '缺少参数 sid';
+        return;
+    }
+
+    $start_time = $_GET['st'];
+
+    if(!isset($start_time)) {
+        $RESULT['error'] = 102;
+        $RESULT['msg'] = '缺少参数 st';
+        return;
+    }
+
+    $start_time = toDTS($start_time); // TBD
+
+    $pc_ids = $_GET['pcids'];
+//    if (empty($pc_ids)) {
+//        $RESULT['error'] = 105;
+//        $RESULT['msg'] = '缺少参数 pcids';
+//        return;
+//    }
+
+    $cinema_ids = $_GET['cnmids'];
+    if (!isset($cinema_ids)) {
+        $RESULT['error'] = 105;
+        $RESULT['msg'] = '缺少参数 cnmids';
+        return;
+    }
+
+    $programs = $_GET['progs'];
+    if (!isset($cinema_ids)) {
+        $RESULT['error'] = 107;
+        $RESULT['msg'] = '缺少参数 progs';
+        return;
+    }
+
+    $name = $_GET['name'];
+    $desc = $_GET['desc'];
+
+    connectDb();
+
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "UPDATE $DB_TAB_SHEET SET name='$name', start_time=$start_time, pc_ids='$pc_ids', programs='$programs', description='$desc', cinema_ids='$cinema_ids' WHERE sid='$sid'";
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    }
+
+    closeDb();
+}
+
 
 function onQueryHandler ($sid) {
     $actions = array();
