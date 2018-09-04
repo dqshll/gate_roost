@@ -201,7 +201,7 @@ function onProgramQuery (&$RESULT, $DB_TAB_PROGRAM) {
         while ($item = mysql_fetch_array($action_result)) {
             $program = array();
 
-            $program ['pid'] = $item['start_time'];
+            $program ['pid'] = $item['pid'];
             $program ['name'] = $item['name'];
             $program ['type'] = $item['type'];
             $program ['cnmid'] = $item['cinema_id'];
@@ -350,6 +350,63 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
+    }
+
+    closeDb();
+}
+
+function onSheetQueryByCinema (&$RESULT, $DB_TAB_SHEET) {
+
+    $cinema_id = $_GET['cnmid'];
+    if (empty($cinema_id)) {
+        $RESULT['error'] = 105;
+        $RESULT['msg'] = '缺少参数 cnmid';
+        return;
+    }
+
+    connectDb();
+
+    $sql = "SELECT * FROM $DB_TAB_SHEET WHERE cinema_ids like '%$cinema_id%'";
+    echo $sql;
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    } else {
+        $RESULT['error'] = 0;
+        $RESULT['msg'] = '操作成功';
+
+        $RESULT['progs'] = array();
+
+        while ($item = mysql_fetch_array($action_result)) {
+            $cinema_ids = $item['cinema_ids'];
+            $list = explode($cinema_ids, ',');
+            $match = false;
+            foreach($list as $cid){
+                if ($cid == $cinema_id) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            if (!$match) {
+                continue;
+            }
+
+            $sheet = array();
+
+            $sheet ['sid'] = $item['sid'];
+            $sheet ['name'] = $item['name'];
+            $sheet ['start_time'] = $item['start_time'];
+            $sheet ['cnmids'] = $item['cinema_ids'];
+            $sheet ['pcids'] = $item['pc_ids'];
+            $sheet ['progs'] = $item['programs'];
+            $sheet ['desc'] = $item['description'];
+
+            array_push($RESULT['shts'], $sheet);
+        }
     }
 
     closeDb();
