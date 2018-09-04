@@ -339,4 +339,8 @@ class Events
         Gateway::sendToClient($box_client_id, $mobile_quit_msg);
         echo "quit msg to box ($box_socket_id)\n";
    }
+
+   public static function onConfigChanged($param) {
+       echo 'onConfigChanged ' . $param;
+   }
 }

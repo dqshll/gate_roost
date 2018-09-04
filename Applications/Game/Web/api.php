@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '../Events.php';
+
 $RESULT = array('error'=>101, 'msg'=>'参数错误');
 
 $DB_TAB_SHEET = 'sheets';
@@ -86,6 +89,8 @@ function onProgramAdd (&$RESULT, $DB_TAB_PROGRAM) {
     }
 
     closeDb();
+
+    Events::onConfigChanged('trial');
 }
 
 function onProgramUpdate (&$RESULT, $DB_TAB_PROGRAM) {
