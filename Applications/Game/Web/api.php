@@ -329,6 +329,31 @@ function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
     closeDb();
 }
 
+function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
+    $sid = $_GET['sid'];
+    if(!isset($sid)) {
+        $RESULT['error'] = 106;
+        $RESULT['msg'] = '缺少参数 sid';
+        return;
+    }
+
+    connectDb();
+
+    $RESULT['error'] = 0;
+    $RESULT['msg'] = '操作成功';
+
+    $sql = "delete from $DB_TAB_SHEET where sid=$sid";
+//    echo $sql;
+
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    }
+
+    closeDb();
+}
 
 function onQueryHandler ($sid) {
     $actions = array();
