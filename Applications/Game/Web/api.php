@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '../Events.php';
+require_once dirname(dirname(__FILE__)) . '/Events.php';
 
 $RESULT = array('error'=>101, 'msg'=>'参数错误');
 

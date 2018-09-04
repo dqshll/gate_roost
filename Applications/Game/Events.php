@@ -340,7 +340,7 @@ class Events
         echo "quit msg to box ($box_socket_id)\n";
    }
 
-   public static function onConfigChanged($param) {
-       echo 'onConfigChanged ' . $param;
+   public static function onConfigChanged() {
+       echo 'onConfigChanged';
    }
 }
