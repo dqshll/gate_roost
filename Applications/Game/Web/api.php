@@ -382,7 +382,7 @@ function onSheetQueryByCinema (&$RESULT, $DB_TAB_SHEET) {
     connectDb();
 
     $sql = "SELECT * FROM $DB_TAB_SHEET WHERE cinema_ids like '%$cinema_id%'";
-    echo $sql;
+//    echo $sql;
 
     $action_result = mysql_query($sql);
 
@@ -393,11 +393,12 @@ function onSheetQueryByCinema (&$RESULT, $DB_TAB_SHEET) {
         $RESULT['error'] = 0;
         $RESULT['msg'] = '操作成功';
 
-        $RESULT['progs'] = array();
+        $RESULT['shts'] = array();
 
         while ($item = mysql_fetch_array($action_result)) {
             $cinema_ids = $item['cinema_ids'];
             $list = explode($cinema_ids, ',');
+//            var_dump($list);
             $match = false;
             foreach($list as $cid){
                 if ($cid == $cinema_id) {
