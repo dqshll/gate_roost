@@ -29,7 +29,6 @@ class Events
         self::$redis = new Redis();
         $result = self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
         echo "connect redis result = $result";
-        var_dump(self::$redis);
     }
 
     public static function onWorkerStop($businessWorker) {
@@ -39,6 +38,7 @@ class Events
     }
 
     static function redisSetPendingSheetFlag ($Uid) {
+        var_dump(self::$redis);
         return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
