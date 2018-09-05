@@ -37,15 +37,15 @@ class Events
 
     }
 
-    function redisSetPendingSheetFlag ($Uid) {
+    static function redisSetPendingSheetFlag ($Uid) {
         return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
-    function redisClearPendingSheetFlag ($Uid) {
+    static function redisClearPendingSheetFlag ($Uid) {
         return self::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
-    
-    function redisGetPendingSheetFlag ($Uid) {
+
+    static function redisGetPendingSheetFlag ($Uid) {
         return self::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
 
@@ -83,9 +83,9 @@ class Events
         }
     }
     
-    function onPCSheetUpdated ($cinema_id, $pc_id) {
+    static function onPCSheetUpdated ($cinema_id, $pc_id) {
         $Uid = $cinema_id . '_' . $pc_id;
-        self::redisSetPendingSheetFlag($Uid);
+        Events::redisSetPendingSheetFlag($Uid);
         $client_id = Gateway::getClientIdByUid($Uid);
         if (isset($client_id)) {
             Gateway::sendToClient($client_id, "u");
@@ -141,7 +141,7 @@ class Events
        echo "onConfigChanged $cinema_id $pcids_str";
        foreach ($pcids as $pcid) {
 
-           self::onPCSheetUpdated($cinema_id, $pcid);
+           Events::onPCSheetUpdated($cinema_id, $pcid);
        }
    }
 }
