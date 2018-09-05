@@ -19,7 +19,7 @@ class Events
     static $REDIS_HOST = '127.0.0.1';
     static $REDIS_HOST_PORT = 6379;
 //
-//    static $redis = null;
+    static $redis = null;
 
     public static function onWorkerStart($businessWorker) {
         echo "onWorkerStart\n";
