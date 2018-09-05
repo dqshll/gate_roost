@@ -101,9 +101,10 @@ class Events
 //        if (isset($client_id)) {
 //            Gateway::sendToClient($client_id, "u");
 //        }
+        $ws_py_path =  __DIR__ . 'Web/ws.py';
         $output = array();
         $result = false;
-        exec ( 'ls' , $output , $result);
+        exec ( "python $ws_py_path" , $output , $result);
         var_dump($output);
         echo "exec result = $result";
     }
