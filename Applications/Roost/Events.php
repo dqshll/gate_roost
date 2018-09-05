@@ -97,10 +97,15 @@ class Events
     static function onPCSheetUpdated ($cinema_id, $pc_id) {
         $Uid = $cinema_id . '_' . $pc_id;
         self::redisSetPendingSheetFlag($Uid);
-        $client_id = Gateway::getClientIdByUid($Uid);
-        if (isset($client_id)) {
-            Gateway::sendToClient($client_id, "u");
-        }
+//        $client_id = Gateway::getClientIdByUid($Uid);
+//        if (isset($client_id)) {
+//            Gateway::sendToClient($client_id, "u");
+//        }
+        $output = array();
+        $result = false;
+        exec ( 'ls' , $output , $result);
+        var_dump($output);
+        echo "exec result = $result";
     }
 
     public static function onMessage($client_id, $message) {
