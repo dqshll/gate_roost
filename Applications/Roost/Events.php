@@ -33,7 +33,7 @@ class Events
     public static function redisConnect() {
         self::$redis = new Redis();
         $result = self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
-        echo "connect redis result = $result";
+//        echo "connect redis result = $result";
     }
 
     public static function redisDisconnect () {
