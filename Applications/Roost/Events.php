@@ -136,9 +136,9 @@ class Events
 
    public static function onConfigChanged($cinema_id, $pcids) {
        echo "onConfigChanged $cinema_id $pcids";
-//       foreach ($pcids as $pcid) {
-//
-//           self::onPCSheetUpdated($cinema_id, $pcids);
-//       }
+       foreach ($pcids as $pcid) {
+
+           self::onPCSheetUpdated($cinema_id, $pcids);
+       }
    }
 }

@@ -89,8 +89,6 @@ function onProgramAdd (&$RESULT, $DB_TAB_PROGRAM) {
     }
 
     closeDb();
-
-    Events::onConfigChanged('trial');
 }
 
 function onProgramUpdate (&$RESULT, $DB_TAB_PROGRAM) {
@@ -271,6 +269,8 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
     }
 
     closeDb();
+
+    Events::onConfigChanged(cinema_ids, pc_ids);
 }
 
 function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
@@ -332,6 +332,7 @@ function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
     }
 
     closeDb();
+    Events::onConfigChanged(cinema_ids, pc_ids);
 }
 
 function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
@@ -343,6 +344,30 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
     }
 
     connectDb();
+    $cinema_ids = null;
+    $pc_ids = null;
+
+    $sql = "select * from $DB_TAB_SHEET where sid=$sid";
+    $action_result = mysql_query($sql);
+
+    if (!$action_result) { // 空
+        $RESULT['error'] = 110;
+        $RESULT['msg'] = '数据库失败操作失败!';
+    } else {
+
+        while ($item = mysql_fetch_array($action_result)) {
+            $cinema_ids = $item['cinema_ids'];
+            $pc_ids = $item['pc_ids'];
+            break;
+        }
+
+        if (empty($cinema_ids)) {
+            $RESULT['error'] = 111;
+            $RESULT['msg'] = '找不到该节目单 sid=' . $sid;
+            return;
+        }
+    }
+
 
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
@@ -358,6 +383,9 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
     }
 
     closeDb();
+    if (isset($cinema_ids) && isset($pc_ids)) {
+        Events::onConfigChanged($cinema_ids, $pc_ids);
+    }
 }
 function onSheetQuery (&$RESULT, $DB_TAB_SHEET) {
     $pc_id = $_GET['pcid'];
