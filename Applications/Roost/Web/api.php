@@ -266,6 +266,8 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
+        closeDb();
+        return;
     }
 
     closeDb();
@@ -329,6 +331,8 @@ function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
+        closeDb();
+        return;
     }
 
     closeDb();
@@ -364,6 +368,7 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
         if (empty($cinema_ids)) {
             $RESULT['error'] = 111;
             $RESULT['msg'] = '找不到该节目单 sid=' . $sid;
+            closeDb();
             return;
         }
     }
@@ -379,6 +384,8 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
     if (!$action_result) { // 空
         $RESULT['error'] = 110;
         $RESULT['msg'] = '数据库失败操作失败!';
+        closeDb();
+        return;
     }
 
     closeDb();
@@ -386,6 +393,7 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
         Events::onConfigChanged($cinema_ids, $pc_ids);
     }
 }
+
 function onSheetQuery (&$RESULT, $DB_TAB_SHEET) {
     $pc_id = $_GET['pcid'];
     if (empty($pc_id)) {
