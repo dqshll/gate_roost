@@ -19,7 +19,7 @@ class Events
     static $REDIS_HOST = '127.0.0.1';
     static $REDIS_HOST_PORT = 6379;
 //
-    static $redis = null;
+    public static $redis = null;
 
     public static function onWorkerStart($businessWorker) {
         echo "onWorkerStart\n";
@@ -38,15 +38,15 @@ class Events
     }
 
     static function redisSetPendingSheetFlag ($Uid) {
-        return Events::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
     static function redisClearPendingSheetFlag ($Uid) {
-        return Events::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+        return self::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
 
     static function redisGetPendingSheetFlag ($Uid) {
-        return Events::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+        return self::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
 
 
@@ -85,7 +85,7 @@ class Events
     
     static function onPCSheetUpdated ($cinema_id, $pc_id) {
         $Uid = $cinema_id . '_' . $pc_id;
-        Events::redisSetPendingSheetFlag($Uid);
+        self::redisSetPendingSheetFlag($Uid);
         $client_id = Gateway::getClientIdByUid($Uid);
         if (isset($client_id)) {
             Gateway::sendToClient($client_id, "u");
@@ -141,7 +141,7 @@ class Events
        echo "onConfigChanged $cinema_id $pcids_str";
        foreach ($pcids as $pcid) {
 
-           Events::onPCSheetUpdated($cinema_id, $pcid);
+           self::onPCSheetUpdated($cinema_id, $pcid);
        }
    }
 }
