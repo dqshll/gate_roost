@@ -41,7 +41,7 @@ class Events
         echo 'redisSetPendingSheetFlag 1';
         var_dump(self::$redis);
         echo 'redisSetPendingSheetFlag 2';
-        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+//        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
     static function redisClearPendingSheetFlag ($Uid) {
