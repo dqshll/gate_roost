@@ -83,7 +83,7 @@ class Events
         }
     }
     
-    static function onPCSheetUpdated ($cinema_id, $pc_id) {
+    function onPCSheetUpdated ($cinema_id, $pc_id) {
         $Uid = $cinema_id . '_' . $pc_id;
         self::redisSetPendingSheetFlag($Uid);
         $client_id = Gateway::getClientIdByUid($Uid);
