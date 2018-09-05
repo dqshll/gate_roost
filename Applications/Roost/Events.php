@@ -138,7 +138,7 @@ class Events
 
        $pcids = explode(',', $pcids_str);
 
-       echo "onConfigChanged $cinema_id $pcids";
+       echo "onConfigChanged $cinema_id $pcids_str";
        foreach ($pcids as $pcid) {
 
            self::onPCSheetUpdated($cinema_id, $pcids);
