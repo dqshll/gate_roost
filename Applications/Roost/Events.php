@@ -16,6 +16,8 @@ class Events
     static $REDIS_KEY_PENDING_PROGRAM= "ps_";
     static $REDIS_KEY_HEART_JUMP_PC_ID = "heart_";
 
+    static $TRIGER_PREFIX = "trg_"
+
     static $REDIS_HOST = '127.0.0.1';
     static $REDIS_HOST_PORT = 6379;
 //
