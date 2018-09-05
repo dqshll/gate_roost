@@ -118,14 +118,15 @@ class Events
         $Uid = substr($message, 4, strlen($message) -4);
         echo "trigger Uid = $Uid";
 
-        $client_id = Gateway::getClientIdByUid($Uid);
+        $client_id_array = Gateway::getClientIdByUid($Uid);
 
-        var_dump($client_id);
-//        if (isset($client_id)) {
-//            Gateway::sendToClient($client_id, "u");
-//        } else {
-//            echo "box Uid $Uid not online, send to it later";
-//        }
+        if (count($client_id_array) == 0) {
+            echo "box Uid $Uid not online, send to it later";
+
+        } else {
+            $client_id = $client_id_array[0];
+            Gateway::sendToClient($client_id, "u");
+        }
     }
 
     public static function onMessage($client_id, $message) {
