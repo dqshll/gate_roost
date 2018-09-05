@@ -26,22 +26,30 @@ class Events
         $output = shell_exec('ifconfig');
         preg_match("/\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/",$output,$realip);
         $GLOBALS['host_ip'] = $realip[0];
+
+        self::redisConnect();
+    }
+
+    public static function redisConnect() {
         self::$redis = new Redis();
         $result = self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
         echo "connect redis result = $result";
     }
 
+    public static function redisDisconnect () {
+        self::$redis->close();
+    }
+
     public static function onWorkerStop($businessWorker) {
         echo "onWorkerStop\n";
-        self::$redis->close();
-
+        self::redisDisconnect();
     }
 
     static function redisSetPendingSheetFlag ($Uid) {
         echo 'redisSetPendingSheetFlag 1';
         var_dump(self::$redis);
         echo 'redisSetPendingSheetFlag 2';
-//        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
     static function redisClearPendingSheetFlag ($Uid) {
@@ -142,9 +150,19 @@ class Events
        $pcids = explode(',', $pcids_str);
 
        echo "onConfigChanged $cinema_id $pcids_str";
+
+       if(count($pcids) == 0) {
+           return;
+       }
+
+       self::redisConnect();
+
        foreach ($pcids as $pcid) {
 
            self::onPCSheetUpdated($cinema_id, $pcid);
        }
+
+       self::redisDisconnect();
+
    }
 }
