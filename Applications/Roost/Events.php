@@ -141,7 +141,7 @@ class Events
        echo "onConfigChanged $cinema_id $pcids_str";
        foreach ($pcids as $pcid) {
 
-           self::onPCSheetUpdated($cinema_id, $pcids);
+           self::onPCSheetUpdated($cinema_id, $pcid);
        }
    }
 }
