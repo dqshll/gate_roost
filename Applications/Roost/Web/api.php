@@ -270,7 +270,7 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
 
     closeDb();
 
-    Events::onConfigChanged(cinema_ids, pc_ids);
+    Events::onConfigChanged($cinema_ids, $pc_ids);
 }
 
 function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
@@ -332,7 +332,7 @@ function onSheetUpdate (&$RESULT, $DB_TAB_SHEET) {
     }
 
     closeDb();
-    Events::onConfigChanged(cinema_ids, pc_ids);
+    Events::onConfigChanged($cinema_ids, $pc_ids);
 }
 
 function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
@@ -367,7 +367,6 @@ function onSheetDel (&$RESULT, $DB_TAB_SHEET) {
             return;
         }
     }
-
 
     $RESULT['error'] = 0;
     $RESULT['msg'] = '操作成功';
