@@ -1,11 +1,11 @@
 <?php
-class PlayEvent {
+class StatLog {
 
     var $DB_SERVER = 'api.edisonx.cn';
     var $DB_USER = 'root';
     var $DB_PSW = 'e5cda60c7e';
-    var $DB_NAME = 'game';
-    var $DB_TABLE = 'egypt';
+    var $DB_NAME = 'roost';
+    var $DB_TABLE = 'stat';
 
     var $user_id;
     var $openid;
@@ -26,7 +26,7 @@ class PlayEvent {
     var $right_click=0;
     var $click_num=0;
 
-    public function PlayEvent ($msg, $retry) {
+    public function StatLog ($msg, $retry) {
 
         $strArray = explode(';', $msg);
 
