@@ -38,15 +38,15 @@ class Events
     }
 
     static function redisSetPendingSheetFlag ($Uid) {
-        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+        return Events::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
     }
 
     static function redisClearPendingSheetFlag ($Uid) {
-        return self::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+        return Events::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
 
     static function redisGetPendingSheetFlag ($Uid) {
-        return self::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+        return Events::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
     }
 
 
