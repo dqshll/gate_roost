@@ -16,7 +16,7 @@ class Events
     static $REDIS_KEY_PENDING_PROGRAM= "ps_";
     static $REDIS_KEY_HEART_JUMP_PC_ID = "heart_";
 
-    static $TRIGER_PREFIX = "trg_"
+    static $TRIGER_PREFIX = "trg_";
 
     static $REDIS_HOST = '127.0.0.1';
     static $REDIS_HOST_PORT = 6379;
@@ -99,6 +99,7 @@ class Events
     static function onPCSheetUpdated ($cinema_id, $pc_id) {
         $Uid = $cinema_id . '_' . $pc_id;
         self::redisSetPendingSheetFlag($Uid);
+
 //        $client_id = Gateway::getClientIdByUid($Uid);
 //        if (isset($client_id)) {
 //            Gateway::sendToClient($client_id, "u");
@@ -106,9 +107,9 @@ class Events
         $ws_py_path =  __DIR__ . '/Web/ws.py';
         $output = array();
         $result = false;
-        exec ( "python $ws_py_path" , $output , $result);
-        var_dump($output);
-        echo "exec result = $result";
+        exec ( "python $ws_py_path " . self::$TRIGER_PREFIX . $Uid , $output , $result);
+//        var_dump($output);
+//        echo "exec result = $result";
     }
 
     public static function onMessage($client_id, $message) {
