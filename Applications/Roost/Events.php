@@ -114,6 +114,8 @@ class Events
         if (strpos($message,"pc_reg_") === 0) {
             self::onPCRegister($client_id, $message);
         } else if (strpos($message,"upd") === 0) {
+
+        } else if (strpos($message,"upd") === 0) { // 收到pc确认消息: 已更新
             $session = Gateway::getSession($client_id);
             $cinema_id = $session['cnmid'];
 

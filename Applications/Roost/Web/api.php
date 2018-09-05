@@ -260,7 +260,7 @@ function onSheetAdd (&$RESULT, $DB_TAB_SHEET) {
     $RESULT['msg'] = '操作成功';
 
     $sql = "INSERT INTO $DB_TAB_SHEET (name, start_time, pc_ids, programs, description, cinema_ids) VALUES ('$name','$start_time','$pc_ids','$programs','$desc','$cinema_ids')";
-
+echo $sql;
     $action_result = mysql_query($sql);
 
     if (!$action_result) { // 空
