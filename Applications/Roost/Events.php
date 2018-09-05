@@ -19,7 +19,7 @@ class Events
     static $REDIS_HOST = '127.0.0.1';
     static $REDIS_HOST_PORT = 6379;
 //
-    public static $redis = null;
+    static $redis = null;
 
     public static function onWorkerStart($businessWorker) {
         echo "onWorkerStart\n";
@@ -27,8 +27,9 @@ class Events
         preg_match("/\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/",$output,$realip);
         $GLOBALS['host_ip'] = $realip[0];
         self::$redis = new Redis();
-        self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
-
+        $result = self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
+        echo "connect redis result = $result";
+        var_dump(self::$redis);
     }
 
     public static function onWorkerStop($businessWorker) {
