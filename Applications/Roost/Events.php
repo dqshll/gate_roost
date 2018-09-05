@@ -119,11 +119,13 @@ class Events
         echo "trigger Uid = $Uid";
 
         $client_id = Gateway::getClientIdByUid($Uid);
-        if (isset($client_id)) {
-            Gateway::sendToClient($client_id, "u");
-        } else {
-            echo "box Uid $Uid not online, send to it later";
-        }
+
+        var_dump($client_id);
+//        if (isset($client_id)) {
+//            Gateway::sendToClient($client_id, "u");
+//        } else {
+//            echo "box Uid $Uid not online, send to it later";
+//        }
     }
 
     public static function onMessage($client_id, $message) {
