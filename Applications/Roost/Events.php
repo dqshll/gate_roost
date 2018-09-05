@@ -92,48 +92,48 @@ class Events
 
         }
     }
-    
-    static function onPCSheetUpdated ($cinema_id, $pc_id) {
-        $Uid = $cinema_id . '_' . $pc_id;
-        self::redisSetPendingSheetFlag($Uid);
 
-//        $client_id = Gateway::getClientIdByUid($Uid);
-//        if (isset($client_id)) {
-//            Gateway::sendToClient($client_id, "u");
-//        }
-        $ws_py_path =  __DIR__ . '/Web/ws.py';
-        $output = array();
-        $result = false;
-        exec ( "python $ws_py_path " . self::$TRIGER_PREFIX . $Uid , $output , $result);
-//        var_dump($output);
-//        echo "exec result = $result";
+    static function onPCUpdated ($client_id) {
+        $session = Gateway::getSession($client_id);
+        $cinema_id = $session['cnmid'];
+
+        if (!isset($cinema_id)) {
+            echo 'cinema_id is missing !';
+            return;
+        }
+
+        $pc_id = $session['pcid'];
+
+        if (!isset($pc_id)) {
+            echo "pcid is missing (cnmid = $cinema_id)!";
+            return;
+        }
+
+        $Uid = $cinema_id . '_' . $pc_id;
+
+        self::redisClearPendingSheetFlag($Uid);
+    }
+
+    static function onChangeTriger ($message) {
+        $Uid = substr($message, 4, strlen($message) -4);
+        echo "trigger Uid = $Uid";
+
+        $client_id = Gateway::getClientIdByUid($Uid);
+        if (isset($client_id)) {
+            Gateway::sendToClient($client_id, "u");
+        } else {
+            echo "box Uid $Uid not online, send to it later";
+        }
     }
 
     public static function onMessage($client_id, $message) {
         echo "onMessage: $message\n";
         if (strpos($message,"pc_reg_") === 0) {
             self::onPCRegister($client_id, $message);
-        } else if (strpos($message,"upd") === 0) {
-
+        } else if (strpos($message, self::$TRIGER_PREFIX) === 0) { // 节目单变更触发
+            self::onChangeTriger ($message);
         } else if (strpos($message,"upd") === 0) { // 收到pc确认消息: 已更新
-            $session = Gateway::getSession($client_id);
-            $cinema_id = $session['cnmid'];
-
-            if (!isset($cinema_id)) {
-                echo 'cinema_id is missing !';
-                return;
-            }
-
-            $pc_id = $session['pcid'];
-
-            if (!isset($pc_id)) {
-                echo "pcid is missing (cnmid = $cinema_id)!";
-                return;
-            }
-
-            $Uid = $cinema_id . '_' . $pc_id;
-
-            self::redisClearPendingSheetFlag($Uid);
+            self::onPCUpdated();
         }
     }
    
@@ -153,6 +153,19 @@ class Events
 
    }
 
+   // 下述方法在 web 的进程里执行
+    static function onConfigChangedForPC ($cinema_id, $pc_id) {
+        $Uid = $cinema_id . '_' . $pc_id;
+        self::redisSetPendingSheetFlag($Uid);
+
+        $ws_py_path =  __DIR__ . '/Web/ws.py';
+        $output = array();
+        $result = false;
+        exec ( "python $ws_py_path " . self::$TRIGER_PREFIX . $Uid , $output , $result);
+//        var_dump($output);
+//        echo "exec result = $result";
+    }
+
    public static function onConfigChanged($cinema_id, $pcids_str) {
 
        $pcids = explode(',', $pcids_str);
@@ -164,7 +177,7 @@ class Events
        self::redisConnect();
 
        foreach ($pcids as $pcid) {
-           self::onPCSheetUpdated($cinema_id, $pcid);
+           self::onConfigChangedForPC($cinema_id, $pcid);
        }
 
        self::redisDisconnect();
