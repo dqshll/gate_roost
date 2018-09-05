@@ -134,7 +134,10 @@ class Events
 
    }
 
-   public static function onConfigChanged($cinema_id, $pcids) {
+   public static function onConfigChanged($cinema_id, $pcids_str) {
+
+       $pcids = explode(',', $pcids_str);
+
        echo "onConfigChanged $cinema_id $pcids";
        foreach ($pcids as $pcid) {
 
