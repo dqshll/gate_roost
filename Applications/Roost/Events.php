@@ -69,8 +69,8 @@ class Events
 
         $arr = explode('@', $message);
 
-        $session['cnmid'] = $arr[0];
-        $session['pcid'] = $arr[1];
+        $session['cnmid'] = $arr[1];
+        $session['pcid'] = $arr[2];
         $pcUid = $session['cnmid'] . '_' . $session['pcid'];
 
         echo "onPCRegister ($message)! Uid=$pcUid\n";
@@ -125,7 +125,7 @@ class Events
 
     public static function onMessage($client_id, $message) {
         echo "onMessage: $message\n";
-        if (strpos($message,"pc_reg_") === 0) {
+        if (strpos($message,"pc_reg") === 0) {
             self::onPCRegister($client_id, $message);
         } else if (strpos($message, self::$TRIGER_PREFIX) === 0) { // 节目单变更触发
             self::onChangeTriger ($message);
