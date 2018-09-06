@@ -13,7 +13,7 @@ use \GatewayWorker\Lib\Gateway;
 
 class Events
 {
-    static $REDIS_KEY_PENDING_PROGRAM= "ps_";
+    static $REDIS_KEY_PENDING_PROGRAM= "pp_";
     static $REDIS_KEY_HEART_JUMP_PC_ID = "heart_";
 
     static $TRIGER_PREFIX = "trg_";
