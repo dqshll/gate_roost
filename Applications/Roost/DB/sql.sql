@@ -190,6 +190,17 @@ CREATE TABLE egypt
   lng              FLOAT DEFAULT '0'                       NULL
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE stat
+(
+  id               INT AUTO_INCREMENT PRIMARY KEY,
+  pcid         VARCHAR(8)                         NOT   NULL,
+  cnmid         VARCHAR(8)      NOT NULL,
+
+  start_time       TIMESTAMP,
+  end_time         TIMESTAMP,
+  duration        INT(10)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE sheets
 (
   sid               INT AUTO_INCREMENT PRIMARY KEY,
