@@ -71,6 +71,11 @@ class Events
 
         $session['cnmid'] = $arr[1];
         $session['pcid'] = $arr[2];
+
+        if(empty($session['cnmid']) or empty($session['pcid'])){
+            return;
+        }
+
         $pcUid = $session['cnmid'] . '_' . $session['pcid'];
 
         echo "onPCRegister ($message)! Uid=$pcUid\n";
