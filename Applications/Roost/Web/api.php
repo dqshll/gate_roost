@@ -72,7 +72,12 @@ function onProgramAdd (&$RESULT, $DB_TAB_PROGRAM) {
 
     $name = $_GET['name'];
     $desc = $_GET['desc'];
-    $duration = $_GET['dur'];
+
+    $duration = 0;
+
+    if (isset($_GET['dur'])) {
+        $duration = $_GET['dur'];
+    }
 
     connectDb();
 
