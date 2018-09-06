@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . '/Events.php';
+//require_once dirname(dirname(__FILE__)) . '/Events.php';
 
 $RESULT = array('error'=>101, 'msg'=>'参数错误');
 
@@ -583,4 +583,48 @@ function closeDb () {
     mysql_close();
 }
 
+function redisConnect() {
+    self::$redis = new Redis();
+    $result = self::$redis->connect(self::$REDIS_HOST, self::$REDIS_HOST_PORT);
+//        echo "connect redis result = $result";
+}
+
+function redisDisconnect () {
+    self::$redis->close();
+}
+
+function redisSetPendingSheetFlag ($Uid) {
+    return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+}
+
+// 下述方法在 web 的进程里执行
+function onConfigChangedForPC ($cinema_id, $pc_id) {
+    $Uid = $cinema_id . '_' . $pc_id;
+    self::redisSetPendingSheetFlag($Uid);
+
+    $ws_py_path =  __DIR__ . '/Web/ws.py';
+    $output = array();
+    $result = false;
+    exec ( "python $ws_py_path " . self::$TRIGER_PREFIX . $Uid , $output , $result);
+//        var_dump($output);
+//        echo "exec result = $result";
+}
+
+function onConfigChanged($cinema_id, $pcids_str) {
+
+    $pcids = explode(',', $pcids_str);
+
+    if(count($pcids) == 0) {
+        return;
+    }
+
+    self::redisConnect();
+
+    foreach ($pcids as $pcid) {
+        self::onConfigChangedForPC($cinema_id, $pcid);
+    }
+
+    self::redisDisconnect();
+
+}
 ?>

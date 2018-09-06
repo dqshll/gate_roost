@@ -155,35 +155,4 @@ class Events
 
 
    }
-
-   // 下述方法在 web 的进程里执行
-    static function onConfigChangedForPC ($cinema_id, $pc_id) {
-        $Uid = $cinema_id . '_' . $pc_id;
-        self::redisSetPendingSheetFlag($Uid);
-
-        $ws_py_path =  __DIR__ . '/Web/ws.py';
-        $output = array();
-        $result = false;
-        exec ( "python $ws_py_path " . self::$TRIGER_PREFIX . $Uid , $output , $result);
-//        var_dump($output);
-//        echo "exec result = $result";
-    }
-
-   public static function onConfigChanged($cinema_id, $pcids_str) {
-
-       $pcids = explode(',', $pcids_str);
-
-       if(count($pcids) == 0) {
-           return;
-       }
-
-       self::redisConnect();
-
-       foreach ($pcids as $pcid) {
-           self::onConfigChangedForPC($cinema_id, $pcid);
-       }
-
-       self::redisDisconnect();
-
-   }
 }
