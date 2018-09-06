@@ -110,12 +110,12 @@ class Events
 
     static function onChangeTriger ($message) {
         $Uid = substr($message, 4, strlen($message) -4);
-        echo "trigger Uid = $Uid";
+        echo "trigger Uid = $Uid \n";
 
         $client_id_array = Gateway::getClientIdByUid($Uid);
 
         if (count($client_id_array) == 0) {
-            echo "box Uid $Uid not online, send to it later";
+            echo "box Uid $Uid not online, send to it later\n";
 
         } else {
             $client_id = $client_id_array[0];
@@ -145,7 +145,7 @@ class Events
        $cinema_id = $session['cnmid'];
        $pc_id = $session['pcid'];
 
-       echo "$cinema_id _ $pc_id disconnected";
+       echo "$cinema_id _ $pc_id disconnected\n";
 
 
    }
