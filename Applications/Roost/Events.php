@@ -1,10 +1,4 @@
 <?php
-/**
- * box, mobile 的UID 就是socketId
- * 每个mobile的session中记录了对应的box_id (就是box的socket_id)
- * 通过uid->client_id的映射方式找到client_id和box进行通讯
- *
- */
 
 require_once __DIR__ . '/DB/StatLog.php';
 
