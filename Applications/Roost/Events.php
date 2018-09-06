@@ -81,7 +81,7 @@ class Events
         echo "onPCRegister ($message)! Uid=$pcUid\n";
 
         $session['uid'] = $pcUid;
-        $session['stat'] = new StatLog($message);
+        $session['stat'] = new StatLog($session['cnmid'], $session['pcid']);
 
         Gateway::setSession($client_id, $session);
         Gateway::bindUid($client_id, $pcUid);
