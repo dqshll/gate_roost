@@ -225,3 +225,18 @@ CREATE TABLE programs
   duration         INT(4) DEFAULT '0',
   url            VARCHAR(256)  DEFAULT NULL
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE banner
+(
+  id               INT AUTO_INCREMENT PRIMARY KEY,
+  name         VARCHAR(32)                            NULL,
+  description         VARCHAR(128)                            NULL,
+  create_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP     NOT NULL,
+  start_time       TIMESTAMP NOT NULL,
+  end_time         TIMESTAMP,
+  cinema_id       VARCHAR(64)  DEFAULT NULL,
+  game        VARCHAR(32)  DEFAULT NULL,
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ALTER TABLE banner ADD `img_url` varchar(256) DEFAULT NULL;
+ALTER TABLE banner ADD `text` varchar(256) DEFAULT NULL;
