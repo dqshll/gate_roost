@@ -41,17 +41,17 @@ class Events
         self::redisDisconnect();
     }
 
-    static function redisSetPendingSheetFlag ($Uid) {
-        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
-    }
+//    static function redisSetPendingSheetFlag ($Uid) {
+//        return self::$redis->set(self::$REDIS_KEY_PENDING_PROGRAM . $Uid, 'u');
+//    }
 
-    static function redisClearPendingSheetFlag ($Uid) {
-        return self::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
-    }
+//    static function redisClearPendingSheetFlag ($Uid) {
+//        return self::$redis->del(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+//    }
 
-    static function redisGetPendingSheetFlag ($Uid) {
-        return self::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
-    }
+//    static function redisGetPendingSheetFlag ($Uid) {
+//        return self::$redis->get(self::$REDIS_KEY_PENDING_PROGRAM . $Uid);
+//    }
 
 
     public static function onConnect($client_id) {
@@ -85,33 +85,33 @@ class Events
 
         Gateway::setSession($client_id, $session);
         Gateway::bindUid($client_id, $pcUid);
-        $sheet = self::redisGetPendingSheetFlag($pcUid);
-        if (!isset($sheet)) {
-            echo 'pending sheet found!';
-
-        }
+//        $sheet = self::redisGetPendingSheetFlag($pcUid);
+//        if (!isset($sheet)) {
+//            echo 'pending sheet found!';
+//
+//        }
     }
 
-    static function onPCUpdated ($client_id) {
-        $session = Gateway::getSession($client_id);
-        $cinema_id = $session['cnmid'];
-
-        if (!isset($cinema_id)) {
-            echo 'cinema_id is missing !';
-            return;
-        }
-
-        $pc_id = $session['pcid'];
-
-        if (!isset($pc_id)) {
-            echo "pcid is missing (cnmid = $cinema_id)!";
-            return;
-        }
-
-        $Uid = $cinema_id . '_' . $pc_id;
-
-        self::redisClearPendingSheetFlag($Uid);
-    }
+//    static function onPCUpdated ($client_id) {
+//        $session = Gateway::getSession($client_id);
+//        $cinema_id = $session['cnmid'];
+//
+//        if (!isset($cinema_id)) {
+//            echo 'cinema_id is missing !';
+//            return;
+//        }
+//
+//        $pc_id = $session['pcid'];
+//
+//        if (!isset($pc_id)) {
+//            echo "pcid is missing (cnmid = $cinema_id)!";
+//            return;
+//        }
+//
+//        $Uid = $cinema_id . '_' . $pc_id;
+//
+////        self::redisClearPendingSheetFlag($Uid);
+//    }
 
     static function onChangeTriger ($message) {
         $Uid = substr($message, 4, strlen($message) -4);
@@ -134,9 +134,10 @@ class Events
             self::onPCRegister($client_id, $message);
         } else if (strpos($message, self::$TRIGER_PREFIX) === 0) { // 节目单变更触发
             self::onChangeTriger ($message);
-        } else if (strpos($message,"upd") === 0) { // 收到pc确认消息: 已更新
-            self::onPCUpdated();
         }
+//        else if (strpos($message,"upd") === 0) { // 收到pc确认消息: 已更新
+//            self::onPCUpdated();
+//        }
     }
    
    /**

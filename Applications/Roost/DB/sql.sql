@@ -240,3 +240,4 @@ CREATE TABLE banner
 
 ALTER TABLE banner ADD `img_url` varchar(256) DEFAULT NULL;
 ALTER TABLE banner ADD `text` varchar(256) DEFAULT NULL;
+ALTER TABLE flydog ADD `game_name` varchar(16) DEFAULT NULL;
