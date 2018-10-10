@@ -92,27 +92,6 @@ class Events
 //        }
     }
 
-//    static function onPCUpdated ($client_id) {
-//        $session = Gateway::getSession($client_id);
-//        $cinema_id = $session['cnmid'];
-//
-//        if (!isset($cinema_id)) {
-//            echo 'cinema_id is missing !';
-//            return;
-//        }
-//
-//        $pc_id = $session['pcid'];
-//
-//        if (!isset($pc_id)) {
-//            echo "pcid is missing (cnmid = $cinema_id)!";
-//            return;
-//        }
-//
-//        $Uid = $cinema_id . '_' . $pc_id;
-//
-////        self::redisClearPendingSheetFlag($Uid);
-//    }
-
     static function onChangeTriger ($message) {
         $Uid = substr($message, 4, strlen($message) -4);
         echo "trigger Uid = $Uid \n";
@@ -123,6 +102,8 @@ class Events
             echo "box Uid $Uid not online, send to it later\n";
 
         } else {
+            $n = count($client_id_array);
+            echo "sending to $Uid ($n found)\n";
             $client_id = $client_id_array[0];
             Gateway::sendToClient($client_id, "u");
         }
