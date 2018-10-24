@@ -80,6 +80,8 @@ class Events
 
         echo "onPCRegister ($message)! Uid=$pcUid\n";
 
+        Events::closeOldClientsByUid($pcUid);
+
         $session['uid'] = $pcUid;
         $session['stat'] = new StatLog($session['cnmid'], $session['pcid']);
 
@@ -90,6 +92,17 @@ class Events
 //            echo 'pending sheet found!';
 //
 //        }
+    }
+
+    static function closeOldClientsByUid ($Uid) {
+        $client_id_array = Gateway::getClientIdByUid($Uid);
+        $n = count($client_id_array);
+        echo "closing $n old Uid ($Uid) \n";
+
+        foreach ($client_id_array as $client_id) {
+            echo "closing client $client_id";
+            Gateway::closeClient($client_id);
+        }
     }
 
     static function onChangeTriger ($message) {
